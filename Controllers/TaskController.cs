@@ -18,7 +18,7 @@ namespace TrackerTask.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllTasks(string? searchString)
+        public async Task<IActionResult> GetAllTasks(string? searchString, string? sorting)
         {
             try
             {
@@ -30,6 +30,10 @@ namespace TrackerTask.Controllers
                         t.Title.ToLower().Contains(searchString.ToLower()) ||
                         (t.Description ?? "").ToLower().Contains(searchString.ToLower()));
                 }
+
+                query = sorting == "dueDate:desc"
+                    ? query.OrderByDescending(t => t.DueDate)
+                    : query.OrderBy(t => t.DueDate);
 
                 return Ok(await query.ToListAsync());
             }
@@ -50,5 +54,19 @@ namespace TrackerTask.Controllers
             return Ok(task);
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var task = await _db.Tasks.FindAsync(id);
+
+            if (task == null)
+                return NotFound();
+
+            _db.Tasks.Remove(task);
+
+            await _db.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetAllTasks), null, task);
+        }
     }
 }
