@@ -1,0 +1,6 @@
+@TrackerTask_HostAddress = http://localhost:5017
+
+GET {{TrackerTask_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
