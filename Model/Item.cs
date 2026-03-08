@@ -10,7 +10,7 @@ namespace TrackerTask.Model
         public string Title { get; set; } = string.Empty;
         public string? Description { get; set; }
 
-        public TaskStatus Status { get; set; }
+        public Status Status { get; set; }
 
         public Proirity Priority { get; set; }
 

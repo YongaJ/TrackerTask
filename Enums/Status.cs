@@ -3,7 +3,7 @@
     public enum Status
     {        
         New = 1,
-        InProgress = 2,
+        InProgreess = 2,
         Done = 3
     }
 }
