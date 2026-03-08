@@ -7,16 +7,17 @@ namespace TrackerTask.Model
     {
         public int Id { get; set; }
         [Required]
+        [MinLength(3, ErrorMessage = "Title must be minimum 3 characttors")]
         public string Title { get; set; } = string.Empty;
         public string? Description { get; set; }
-
+        [Required]
         public Status Status { get; set; }
-
+        [Required]
         public Proirity Priority { get; set; }
 
         public DateTime? DueDate { get; set; }
 
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? LastUpdatedAt { get; set; }
     }
 }

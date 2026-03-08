@@ -110,16 +110,12 @@ namespace TrackerTask.Controllers
 
                 if (updated.DueDate.HasValue)
                 {
-                    //Due date cannot be before task was created
-                    if (updated.DueDate.Value < task.CreatedAt)
-                    {
-                        return BadRequest("Due date cannot be earlier than the task creation date.");
-                    }
+                    var due = updated.DueDate.Value;
 
-                    // Due date cannot be before the last update date
-                    if (task.LastUpdatedAt.HasValue && updated.DueDate.Value < task.LastUpdatedAt.Value)
+                    if (due < task.CreatedAt ||
+                       (task.LastUpdatedAt.HasValue && due < task.LastUpdatedAt))
                     {
-                        return BadRequest("Due date cannot be earlier than the last updated date.");
+                        return BadRequest("Due date cannot be earlier than the task creation or last updated date.");
                     }
                 }
 
