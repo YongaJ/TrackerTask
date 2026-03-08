@@ -17,5 +17,6 @@ namespace TrackerTask.Model
         public DateTime? DueDate { get; set; }
 
         public DateTime CreatedAt { get; set; }
+        public DateTime? LastUpdatedAt { get; set; }
     }
 }

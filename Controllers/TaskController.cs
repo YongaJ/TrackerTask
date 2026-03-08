@@ -68,5 +68,69 @@ namespace TrackerTask.Controllers
 
             return CreatedAtAction(nameof(GetAllTasks), null, task);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Insert(Item task)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(task.Title))
+                    return BadRequest("Title IS A REUIRED FEILD!");
+
+                task.CreatedAt = DateTime.UtcNow;
+                task.DueDate = DateTime.UtcNow.AddDays(28);
+
+                _db.Tasks.Add(task);
+                await _db.SaveChangesAsync();
+
+                return CreatedAtAction(nameof(GetTaskById), new { id = task.Id }, task);
+            }
+            catch (Exception ex)
+            {
+                return Problem(detail: ex.Message);
+            }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, Item updated)
+        {
+            try
+            {
+                var task = await _db.Tasks.FindAsync(id);
+
+                if (task == null)
+                    return NotFound();
+
+                task.Title = updated.Title;
+                task.Description = updated.Description;
+                task.Status = updated.Status;
+                task.Priority = updated.Priority;
+                task.DueDate = updated.DueDate;
+                task.LastUpdatedAt = DateTime.UtcNow;
+
+                if (updated.DueDate.HasValue)
+                {
+                    //Due date cannot be before task was created
+                    if (updated.DueDate.Value < task.CreatedAt)
+                    {
+                        return BadRequest("Due date cannot be earlier than the task creation date.");
+                    }
+
+                    // Due date cannot be before the last update date
+                    if (task.LastUpdatedAt.HasValue && updated.DueDate.Value < task.LastUpdatedAt.Value)
+                    {
+                        return BadRequest("Due date cannot be earlier than the last updated date.");
+                    }
+                }
+
+                await _db.SaveChangesAsync();
+
+                return Ok(task);
+            }
+            catch (Exception ex)
+            {
+                return Problem(detail: ex.Message);
+            }
+        }
     }
 }
