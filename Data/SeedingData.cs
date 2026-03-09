@@ -16,7 +16,7 @@ namespace TaskTracker.Api.Seed
                 {
                     Title = "Start Offeren Project",
                     Description = "Buidling Task seed data. In Progreess",
-                    Proirity = Proirity.High,
+                    Priority = Priority.High,
                     Status = Status.InProgreess,
                     CreatedAt = DateTime.UtcNow
                 },
@@ -24,7 +24,7 @@ namespace TaskTracker.Api.Seed
                 {
                     Title = "Continue Offeren Project",
                     Description = "Buidling Task seed data continued creadted 1 day ago.New",
-                    Proirity = Proirity.Medium,
+                    Priority = Priority.Medium,
                     Status = Status.New,
                     CreatedAt = DateTime.UtcNow.AddDays(-1)
                 },
@@ -32,7 +32,7 @@ namespace TaskTracker.Api.Seed
                 {
                     Title = "Continue Offeren Project 2",
                     Description = "Buidling Task seed data continued creadted 2 day ago. Done",
-                    Proirity = Proirity.Low,
+                    Priority = Priority.Low,
                     Status = Status.Done,
                     CreatedAt = DateTime.UtcNow.AddDays(-2)
                 }

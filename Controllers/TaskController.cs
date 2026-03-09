@@ -104,7 +104,7 @@ namespace TrackerTask.Controllers
                 task.Title = updated.Title;
                 task.Description = updated.Description;
                 task.Status = updated.Status;
-                task.Proirity = updated.Proirity;
+                task.Priority = updated.Priority;
                 task.DueDate = updated.DueDate;
                 task.LastUpdatedAt = DateTime.UtcNow;
 

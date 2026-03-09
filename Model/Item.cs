@@ -13,11 +13,11 @@ namespace TrackerTask.Model
         [Required]
         public Status Status { get; set; }
         [Required]
-        public Proirity Proirity { get; set; }
+        public Priority Priority { get; set; }
 
         public DateTime? DueDate { get; set; }
 
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedAt { get; set; }
         public DateTime? LastUpdatedAt { get; set; }
     }
 }
