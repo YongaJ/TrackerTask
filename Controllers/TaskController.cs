@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using TaskTracker.Api.Data;
 using TrackerTask.Model;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace TrackerTask.Controllers
 {
@@ -78,7 +79,17 @@ namespace TrackerTask.Controllers
                     return BadRequest("Title IS A REUIRED FEILD!");
 
                 task.CreatedAt = DateTime.UtcNow;
-                task.DueDate = DateTime.UtcNow.AddDays(28);
+
+                if (task.DueDate.HasValue)
+                {
+                    var due = task.DueDate.Value;
+
+                    if (due !> task.CreatedAt ||
+                       (task.LastUpdatedAt.HasValue && due < task.LastUpdatedAt))
+                    {
+                        return BadRequest("Due date cannot be earlier than the task creation or last updated date.");
+                    }
+                }
 
                 _db.Tasks.Add(task);
                 await _db.SaveChangesAsync();
