@@ -17,17 +17,19 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("https://localhost:7250/swagger",
+    options.AddPolicy("AllowFrontend",
         policy =>
         {
-            policy.AllowAnyHeader()
+            policy.AllowAnyOrigin()
+                  .AllowAnyHeader()
                   .AllowAnyMethod();
         });
 });
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+app.UseCors("AllowFrontend");
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
